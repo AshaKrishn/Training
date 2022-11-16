@@ -21,9 +21,13 @@ class Animal {
 
 class Carnivorous extends Animal {
     public $name;
+    public static function Description(){
+        echo "I have two eyes.<br>";
+    }
     public function Intro() {
         $this->Welcome();
-        self::Description();
+        //self::Description();
+        parent::Description();
         echo "My name is $this->name and I eat meat !! <br>";
     }
 
