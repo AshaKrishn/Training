@@ -7,24 +7,26 @@ class Animal {
     private static $legs = 4;
     public static $tails = 1;
 
-    private static function Description() {
+    public static function Description() {
         echo "I have ".self::$legs." legs. <br>";
     }
 
     public function Welcome(){
         echo "Hi I am a $this->colour $this->type...!! <br>";
-        self::Description();
+        
     }
     
-
+   
 }
 
 class Carnivorous extends Animal {
     public $name;
     public function Intro() {
         $this->Welcome();
+        Animal::Description();
         echo "My name is $this->name and I eat meat !! <br>";
     }
+
 }
 
 class Herbivorous extends Animal {
@@ -39,7 +41,7 @@ class Omnivorous extends Animal {
     public $name;
     protected function Intro() {
         $this->Welcome();
-        echo " Also I have ".self::$tails." tail.<br>";
+        echo "I have ".self::$tails." tail.<br>";
         echo "My name is $this->name and I eat both plants and meat !! <br>";
     }
     
