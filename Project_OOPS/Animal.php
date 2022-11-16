@@ -81,6 +81,7 @@ $carnivorous->colour = "Brown";
 $carnivorous->name = "Diego";
 $carnivorous->Intro();
 echo "=====================================<br>";
+
 $cow = new Cow();
 $cow->type = "Cow";
 $cow->colour = "Grey";
