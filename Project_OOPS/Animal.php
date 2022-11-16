@@ -23,7 +23,7 @@ class Carnivorous extends Animal {
     public $name;
     public function Intro() {
         $this->Welcome();
-        Animal::Description();
+        self::Description();
         echo "My name is $this->name and I eat meat !! <br>";
     }
 
