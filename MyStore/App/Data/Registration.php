@@ -31,7 +31,7 @@ class Registration
         $stmt->bindParam(':modified',$currentTime);
         $stmt->bindParam(':islogged',$isLoggedStatus,PDO::PARAM_STR);
         
-        //$stmt->execute();
+        $stmt->execute();
         if($db->lastInsertId()) {
             echo "Data inserted successfully..!!";
         } else {
