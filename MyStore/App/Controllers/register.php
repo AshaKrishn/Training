@@ -7,20 +7,20 @@ ini_set('display_errors', 1);
 
 
 class Register {
-    function validateRegistration($user) {
+    public function validateRegistration($user) {
         foreach ($user as $key=>$value) {
             if (!empty($value)) {
-                $user[$key] = sanitize($value);
+                $user[$key] = $this->sanitize($value);
             } else {
                 if ($key == 'firstname' || 'username' || 'password_1' || 'password_2' || 'phoneno') {
-                    errorMessage($key);
+                    $this->errorMessage($key);
                 }
                 return;
             }
         }
 
         if ($user['password_1'] !== $user['password_2']) {
-            errorMessage('password_mismatch');
+            $this->errorMessage('password_mismatch');
             return;
         }
 
@@ -28,7 +28,7 @@ class Register {
         $newRegistration->registerUser($user);
        
     }
-    function sanitize($input)
+    public function sanitize($input)
     {
         $input = trim($input);
         $input = stripslashes($input);
@@ -36,7 +36,7 @@ class Register {
         return $input;    
     }
 
-    function errorMessage($errMsg)
+    public function errorMessage($errMsg)
     {
     switch ($errMsg){
         case 'firstname' : echo "First name cannot be empty";

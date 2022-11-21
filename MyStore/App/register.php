@@ -1,11 +1,12 @@
 <?php
-use StoreApp\Controllers;
+//use StoreApp\Controllers;
 
-require_once $_SERVER['DOCUMENT_ROOT']."/git_repo/Training/MyStore/vendor/autoload.php";
+//require_once $_SERVER['DOCUMENT_ROOT']."/git_repo/Training/MyStore/vendor/autoload.php";
+require_once __DIR__.('/Controllers/register.php');
 ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-	$register = new Register();
+	$register = new \StoreApp\Controllers\Register();
 	$register->validateRegistration($_POST);
 }
 
