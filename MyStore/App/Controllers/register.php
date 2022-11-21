@@ -1,8 +1,8 @@
 <?php
 namespace StoreApp\Controllers;
 
-require_once $_SERVER['DOCUMENT_ROOT']."/git_repo/Training/MyStore/vendor/autoload.php";
 use StoreApp\Data\Registration;
+require_once $_SERVER['DOCUMENT_ROOT']."/git_repo/Training/MyStore/vendor/autoload.php";
 ini_set('display_errors', 1);
 
 
@@ -11,21 +11,38 @@ class Register {
         foreach ($user as $key=>$value) {
             if (!empty($value)) {
                 $user[$key] = $this->sanitize($value);
-            } else {
-                if ($key == 'firstname' || 'username' || 'password_1' || 'password_2' || 'phoneno') {
-                    $this->errorMessage($key);
+                if ($key == 'phoneno') {
+                    if (!preg_match("/^[0-9]*$/",$value)) {
+                        $this->errorMessage('phone_not_number'); 
+                    } else if (strlen($value)!=10) {
+                        $this->errorMessage('phone_length_mismatch');
+                        return false;
+                    }
                 }
-                return;
+            } else {
+                if ($key == 'firstname' || 'username' || 'password_1' || 'password_2' || 'phoneno' || 'email') {
+                    $this->errorMessage($key);
+                    return false;
+                }
+                
             }
         }
 
         if ($user['password_1'] !== $user['password_2']) {
             $this->errorMessage('password_mismatch');
-            return;
+            return false;
         }
 
         $newRegistration = new Registration();
+
+        /*
+        if ($newRegistration->checkUsername($user['username'])) {
+            $this->errorMessage('username_exists');
+            return;
+        }
+        */
         $newRegistration->registerUser($user);
+        return true;
        
     }
     public function sanitize($input)
@@ -38,14 +55,18 @@ class Register {
 
     public function errorMessage($errMsg)
     {
-    switch ($errMsg){
-        case 'firstname' : echo "First name cannot be empty";
-        case 'username' : echo "User name cannot be empty";
-        case 'password_1' : echo "Password cannot be empty";
-        case 'password_2' : echo "Confirm password cannot be empty";
-        case 'phoneno' : echo "Confirm password cannot be empty";
-        case 'password_mismatch' : echo "Confirm password is not matching with the password entered";
-
-    }
+        switch ($errMsg){
+            case 'firstname' : echo "<br>First name cannot be empty..!!</br>";
+            case 'username' : echo "<br>User name cannot be empty..!!</br>";
+            case 'password_1' : echo "<br>Password cannot be empty..!!</br>";
+            case 'password_2' : echo "<br>Confirm password cannot be empty..!!</br>";
+            case 'phoneno' : echo "<br>Phone number cannot be empty..!!</br>";
+            case 'email' : echo "<br>Email required..!!</br>";
+            case 'password_mismatch' : echo "<br>Confirm password is not matching with the password entered..!!</br>";
+            case 'phone_not_number' : echo "<br>Please enter only numeric value for phone number..!!</br>";
+            case 'phone_length_mismatch' : echo "<br>The length of phone number must be 10 digits..!!</br>";
+            case 'username_exists' : echo "<br>This username exists.Please choose a different one..!!</br>";
+            
+        }
     }
 }

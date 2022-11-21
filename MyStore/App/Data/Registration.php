@@ -9,7 +9,7 @@ class Registration
 {
     
     public function registerUser($newUser)
-    {
+    { 
         $db = $this->getDbConnection();
         $stmt = $db->prepare("INSERT INTO users (
                                 first_name,last_name,username,password,phone_no,gender,email,created_on,modified_on,is_logged) 
@@ -20,24 +20,37 @@ class Registration
         $currentTime = date("Y-m-d H:i:s");
         $isLoggedStatus = 1;
         
-        $stmt->bindParam(':firstname',$newUser['firstname'],PDO::PARAM_STR);
-        $stmt->bindParam(':lastname',$newUser['lastname'],PDO::PARAM_STR);
-        $stmt->bindParam(':username',$newUser['username'],PDO::PARAM_STR);
-        $stmt->bindParam(':password',$newUser['password'],PDO::PARAM_STR);
-        $stmt->bindParam(':phoneno',$newUser['phoneno'],PDO::PARAM_INT);
-        $stmt->bindParam(':gender',$newUser['gender'],PDO::PARAM_STR);
-        $stmt->bindParam(':email',$newUser['email'],PDO::PARAM_STR);
+        $stmt->bindParam(':firstname',$newUser['firstname'],\PDO::PARAM_STR);
+        $stmt->bindParam(':lastname',$newUser['lastname'],\PDO::PARAM_STR);
+        $stmt->bindParam(':username',$newUser['username'],\PDO::PARAM_STR);
+        $stmt->bindParam(':password',$newUser['password_1'],\PDO::PARAM_STR);
+        $stmt->bindParam(':phoneno',$newUser['phoneno'],\PDO::PARAM_INT);
+        $stmt->bindParam(':gender',$newUser['gender'],\PDO::PARAM_STR);
+        $stmt->bindParam(':email',$newUser['email'],\PDO::PARAM_STR);
         $stmt->bindParam(':created',$currentTime);
         $stmt->bindParam(':modified',$currentTime);
-        $stmt->bindParam(':islogged',$isLoggedStatus,PDO::PARAM_STR);
+        $stmt->bindParam(':islogged',$isLoggedStatus,\PDO::PARAM_STR);
         
         $stmt->execute();
         if($db->lastInsertId()) {
-            echo "Data inserted successfully..!!";
+           return true;
         } else {
-            echo "Error in inserting data..!!";
+            return false;
         }
     } 
+
+    public function checkUsername($username) {
+        $db = $this->getDbConnection();
+        $stmt = $db->prepare("SELECT id FROM users WHERE username = :username");
+        $stmt->bindParam(':username',$username);
+        $stmt->execute();
+        if ($stmt->fetchColumn()) {
+            echo "user exists";
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public function getDbConnection()
     {
@@ -71,8 +84,10 @@ class Registration
         $db->exec($query);
         if($db->lastInsertId()) {
             echo "Data inserted successfully..!!";
+            return true;
         } else {
             echo "Error in inserting data..!!";
+            return false;
         }
     } 
     
