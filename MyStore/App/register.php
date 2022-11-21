@@ -1,3 +1,15 @@
+<?php
+use StoreApp\Controllers;
+
+require_once $_SERVER['DOCUMENT_ROOT']."/git_repo/Training/MyStore/vendor/autoload.php";
+ini_set('display_errors', 1);
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	$register = new Register();
+	$register->validateRegistration($_POST);
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +21,7 @@
   	<h2>Register</h2>
   </div>
 	
-  <form method="post" action="Controllers/register.php">
+  <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <div class="input-group">
   	  <label>Firstname</label>
   	  <input type="text" name="firstname">
@@ -40,12 +52,12 @@
   	</div>
     <div class="input-group">
   	  <label>Gender</label>
-  	  <input type="radio" name="gender" value="male"> Male
+  	  <input type="radio" name="gender" value="male" checked> Male
       <input type="radio" name="gender" value="female"> Female
       <input type="radio" name="gender" value="others"> Others
   	</div>
   	<div class="input-group">
-  	  <button type="submit" class="button" name="registration">Register Me</button>
+  	  <button type="submit" class="button" >Register Me</button>
   	</div>
   	<p>
   		Already a member? <a href="login.php">Login in</a>

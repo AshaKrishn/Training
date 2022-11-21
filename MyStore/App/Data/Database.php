@@ -1,5 +1,5 @@
 <?php
-//namespace StoreApp\Data;
+namespace StoreApp\Data;
 
 class Database
 {

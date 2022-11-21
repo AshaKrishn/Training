@@ -1,15 +1,15 @@
 <?php
-include_once('Database.php');
+namespace StoreApp\Data;
+
+use StoreApp\Data\Database;
+require_once $_SERVER['DOCUMENT_ROOT']."/git_repo/Training/MyStore/vendor/autoload.php";
 ini_set('display_errors', 1);
+
 class Registration 
 {
     
     public function registerUser($newUser)
     {
-        echo "in function";
-        echo "<pre>";
-        print_r($newUser);
-        
         $db = $this->getDbConnection();
         $stmt = $db->prepare("INSERT INTO users (
                                 first_name,last_name,username,password,phone_no,gender,email,created_on,modified_on,is_logged) 
@@ -19,7 +19,7 @@ class Registration
         
         $currentTime = date("Y-m-d H:i:s");
         $isLoggedStatus = 1;
-        $newUser['gender'] = 'female';
+        
         $stmt->bindParam(':firstname',$newUser['firstname'],PDO::PARAM_STR);
         $stmt->bindParam(':lastname',$newUser['lastname'],PDO::PARAM_STR);
         $stmt->bindParam(':username',$newUser['username'],PDO::PARAM_STR);
@@ -31,13 +31,14 @@ class Registration
         $stmt->bindParam(':modified',$currentTime);
         $stmt->bindParam(':islogged',$isLoggedStatus,PDO::PARAM_STR);
         
-        $stmt->execute();
+        //$stmt->execute();
         if($db->lastInsertId()) {
             echo "Data inserted successfully..!!";
         } else {
             echo "Error in inserting data..!!";
         }
     } 
+
     public function getDbConnection()
     {
         $pdo = new Database();
@@ -56,7 +57,7 @@ class Registration
         $username = $newUser['username'];
         $password = $newUser['password'];
         $phoneno = $newUser['phoneno'];
-        $gender = 'female';//$newUser['gender'];
+        $gender = $newUser['gender'];
         $email = $newUser['email'];
        
         $db = $this->getDbConnection();

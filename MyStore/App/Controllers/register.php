@@ -1,53 +1,51 @@
 <?php
-require_once realpath('../Data/Registration.php');
+namespace StoreApp\Controllers;
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+require_once $_SERVER['DOCUMENT_ROOT']."/git_repo/Training/MyStore/vendor/autoload.php";
+use StoreApp\Data\Registration;
+ini_set('display_errors', 1);
 
-    $user = array();
-    if (!empty($_POST['firstname'])) {
-        $user['firstname'] = sanitize($_POST['firstname']);
-    } else {
-        echo errorMessage('firstname');
-        return;
+
+class Register {
+    function validateRegistration($user) {
+        foreach ($user as $key=>$value) {
+            if (!empty($value)) {
+                $user[$key] = sanitize($value);
+            } else {
+                if ($key == 'firstname' || 'username' || 'password_1' || 'password_2' || 'phoneno') {
+                    errorMessage($key);
+                }
+                return;
+            }
+        }
+
+        if ($user['password_1'] !== $user['password_2']) {
+            errorMessage('password_mismatch');
+            return;
+        }
+
+        $newRegistration = new Registration();
+        $newRegistration->registerUser($user);
+       
+    }
+    function sanitize($input)
+    {
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);
+        return $input;    
     }
 
-    if (!empty($_POST['lastname'])) {
-        $user['lastname'] = sanitize($_POST['lastname']);
-    } 
+    function errorMessage($errMsg)
+    {
+    switch ($errMsg){
+        case 'firstname' : echo "First name cannot be empty";
+        case 'username' : echo "User name cannot be empty";
+        case 'password_1' : echo "Password cannot be empty";
+        case 'password_2' : echo "Confirm password cannot be empty";
+        case 'phoneno' : echo "Confirm password cannot be empty";
+        case 'password_mismatch' : echo "Confirm password is not matching with the password entered";
 
-    if (!empty($_POST['username'])) {
-        $user['username'] = sanitize($_POST['username']);
-    } else {
-        echo errorMessage('username');
-        return;
     }
-
-    
-    $user['password'] = sanitize($_POST['password_1']);
-    //$user['confirmpassword'] = sanitize($_POST['password_2']);
-    $user['email'] = sanitize($_POST['email']);
-    $user['phoneno'] = sanitize($_POST['phoneno']);
-    $user['gender'] = sanitize($_POST['gender']);
-    
-    //echo "<pre>"; print_r($_POST);
-    $newRegistration = new Registration();
-    $newRegistration->registerUser($user);
-   
-}
-
-function sanitize($input)
-{
-    $input = trim($input);
-    $input = stripslashes($input);
-    $input = htmlspecialchars($input);
-    return $input;    
-}
-
-function errorMessage($errMsg)
-{
-
-  switch ($errMsg){
-      case 'firstname' : return "First name cannot be empty";
-      case 'username' : return "User name cannot be empty";
-  }
+    }
 }
