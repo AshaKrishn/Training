@@ -7,7 +7,6 @@ class Welcome
 {
     public function display()
     {
-        
         echo "<html>";
             echo "<head>";
                 echo "<title>My Store</title>";

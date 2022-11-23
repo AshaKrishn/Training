@@ -3,8 +3,6 @@
 namespace StoreApp\Data;
 
 use StoreApp\Data\Database;
-require_once $_SERVER['DOCUMENT_ROOT']."/git_repo/Training/MyStore/vendor/autoload.php";
-//require_once "../../vendor/autoload.php";
 ini_set('display_errors', 1);
 
 class Registration 
@@ -15,8 +13,6 @@ class Registration
         $stmt = $db->prepare("INSERT INTO users (
                                 first_name,last_name,username,password,phone_no,gender,email,created_on,modified_on,is_logged) 
                                 VALUES (:firstname,:lastname,:username,:password,:phoneno,:gender,:email,:created,:modified,:islogged)");
-
-
 
         $currentTime = date("Y-m-d H:i:s");
         $isLoggedStatus = 1;
@@ -31,9 +27,51 @@ class Registration
         $stmt->bindParam(':created', $currentTime);
         $stmt->bindParam(':modified', $currentTime);
         $stmt->bindParam(':islogged', $isLoggedStatus, \PDO::PARAM_STR);
+       
+        try {
+            $stmt->execute();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";die();
+        }
+        $insertId = $db->lastInsertId();
+        $db = null;
+        if ($insertId) {
+            $this->registerUserAddresses($insertId,$newUser);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        $stmt->execute();
-        if ($db->lastInsertId()) {
+    public function registerUserAddresses($id,$user)
+    {
+        $db = $this->getDbConnection();
+        
+        $currentTime = date("Y-m-d H:i:s");
+        $stmt = $db->prepare("INSERT INTO user_addresses (
+            user_id,address,postal_code,city,state,country,address_type,default_address,created_on,modified_on) 
+            VALUES (:user_id,:address,:postal_code,:city,:state,:country,:address_type,:default_address,:created_on,:modified_on)");
+
+        $stmt->bindParam(':user_id', $id, \PDO::PARAM_INT);
+        $stmt->bindParam(':address', $user['address'], \PDO::PARAM_STR);
+        $stmt->bindParam(':postal_code', $user['pincode'], \PDO::PARAM_STR);
+        $stmt->bindParam(':city', $user['city'], \PDO::PARAM_STR);
+        $stmt->bindParam(':state', $user['state'], \PDO::PARAM_STR);
+        $stmt->bindParam(':country', $user['country'], \PDO::PARAM_STR);
+        $stmt->bindParam(':address_type', $user['address_type'], \PDO::PARAM_STR);
+        $stmt->bindParam(':default_address', $user['default'], \PDO::PARAM_STR);
+        $stmt->bindParam(':created_on', $currentTime);
+        $stmt->bindParam(':modified_on', $currentTime);
+       
+        try {
+            $stmt->execute();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";die();
+        }
+        
+        $insertId = $db->lastInsertId();
+        $db = null;
+        if ($insertId) {
             return true;
         } else {
             return false;
@@ -46,12 +84,8 @@ class Registration
         $stmt = $db->prepare("SELECT id FROM users WHERE username = :username");
         $stmt->bindParam(':username', $username);
         $stmt->execute();
-        echo "In check username function---->".print_r($stmt->fetchColumn());
-        if ($stmt->fetchColumn()) {
-            return false;
-        } else {
-            return true;
-        }
+        $db = null;
+        return $stmt->fetchColumn();
     }
 
     public function getDbConnection()
@@ -60,49 +94,5 @@ class Registration
         return $pdo->conn;
     }
 
-    public function registerUser2($newUser)
-    {
-        echo "in function";
-        echo "<pre>";
-        print_r($newUser);
-        $currentTime = date("Y-m-d H:i:s");
-        $isLoggedStatus = 1;
-        $firstname = $newUser['firstname'];
-        $lastname = $newUser['lastname'];
-        $username = $newUser['username'];
-        $password = $newUser['password'];
-        $phoneno = $newUser['phoneno'];
-        $gender = $newUser['gender'];
-        $email = $newUser['email'];
-
-        $db = $this->getDbConnection();
-
-        $query = "INSERT INTO users
-                     (first_name,last_name,username,password,phone_no,gender,email,created_on,modified_on,is_logged) 
-                     VALUES ('".$firstname."','".$lastname."','".$username."','".$password."','".$phoneno."','".$gender."','".$email."','".
-                     $currentTime."','".$currentTime."','".$isLoggedStatus."')";
-
-
-        $db->exec($query);
-        if ($db->lastInsertId()) {
-            echo "Data inserted successfully..!!";
-            return true;
-        } else {
-            echo "Error in inserting data..!!";
-            return false;
-        }
-    }
+    
 }
-/*
-        echo "<pre>";
-        while ($row = $result->fetch()){
-            print_r($row);
-        }
-
-        foreach ($newUser as $key => &$val) {
-            $stmt->bindParam(':'.$key, $val);
-            //echo "<br>key===>$key===val===>".$val;
-        }
-
-
-*/
