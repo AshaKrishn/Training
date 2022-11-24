@@ -1,14 +1,17 @@
 <?php
+
 namespace StoreApp\Views;
 
 ini_set('display_errors', 1);
 use StoreApp\Controllers\Register;
 
-class RegistrationForm 
+class RegistrationForm
 {
-	public function display()
-	{	
-    ?>
+    public function display()
+	
+    {
+		ob_start();
+        ?>
 		<!DOCTYPE html>
 		<html>
 		<head>
@@ -16,11 +19,14 @@ class RegistrationForm
 		<link rel="stylesheet" type="text/css" href="style.css">
 		</head>
 		<body>
+		<p>
+			<a href="index"><< Back to Home >></a>
+		</p>
 		<div class="header">
 			<h2>Register</h2>
 		</div>
-			
 		<form method="post" action="validateRegistration" method="post">
+		
 			<div class="input-group">
 			<label>Firstname</label>
 			<input type="text" name="firstname" value="<?php echo (isset($_POST['firstname'])) ? $_POST['firstname'] : 'asha'; ?>">
@@ -91,12 +97,15 @@ class RegistrationForm
 			<button type="submit" class="button" >Register Me</button>
 			</div>
 			<p>
-				Already a member? <a href="login.php">Login in</a>
+				Already a member? <a href="login">Login in</a>
 			</p>
 		</form>
 		</body>
 		</html>
 <?php
-	}
+    $str = ob_get_contents();
+	return $str;
+    }
+	
 }
 ?>

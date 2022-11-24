@@ -23,11 +23,3 @@ class Database
     
 
 }
-/*
-$pdo = new Database();
-$result = $pdo->conn->query("show tables");
-echo "<pre>";
-while ($row = $result->fetch()){
-    print_r($row);
-}
-*/
