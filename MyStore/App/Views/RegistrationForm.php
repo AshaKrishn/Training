@@ -8,9 +8,8 @@ use StoreApp\Controllers\Register;
 class RegistrationForm
 {
     public function display()
-	
     {
-		ob_start();
+        ob_start();
         ?>
 		<!DOCTYPE html>
 		<html>
@@ -104,8 +103,7 @@ class RegistrationForm
 		</html>
 <?php
     $str = ob_get_contents();
-	return $str;
+        return $str;
     }
-	
 }
 ?>

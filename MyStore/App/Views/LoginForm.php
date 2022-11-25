@@ -7,7 +7,7 @@ class LoginForm
 {
     public function display()
     {
-		ob_start();
+        ob_start();
         ?>
         <!DOCTYPE html>
 		<html>
@@ -26,11 +26,11 @@ class LoginForm
 		<form method="post" action="validateLogin" method="post">
 			<div class="input-group">
 			<label>Username</label>
-			<input type="text" name="username" value="">
+			<input type="text" name="username" >
 			</div>
 			<div class="input-group">
 			<label>Password</label>
-			<input type="password" name="password" value="">
+			<input type="password" name="password" >
 			</div>
 			<div class="input-group">
 			<button type="submit" class="button" >Login</button>
@@ -43,8 +43,8 @@ class LoginForm
 		</html>
 
 <?php
-	$str = ob_get_contents();
-	return $str;
+        $str = ob_get_contents();
+        return $str;
     }
 }
 ?>

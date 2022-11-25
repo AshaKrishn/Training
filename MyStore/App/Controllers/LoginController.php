@@ -2,40 +2,38 @@
 
 namespace StoreApp\Controllers;
 
-use StoreApp\Helpers\StringHelper;
 use StoreApp\Helpers\DbHelper;
+use StoreApp\Helpers\Helper;
 
 ini_set('display_errors', 1);
 
 class LoginController
 {
-    public function validateLogin() 
+    public function validateLogin()
     {
         if (empty($_POST)) {
             return $this->showLoginForm();
         }
         if (!empty($_POST['username'])) {
-           $_POST['username'] = (new StringHelper())->sanitize($_POST['username']);
+            $_POST['username'] = (new Helper())->sanitize($_POST['username']);
         } else {
             $this->printError('username');
             return $this->showLoginForm();
         }
         if (!empty($_POST['password'])) {
-            $_POST['password'] = (new StringHelper())->sanitize($_POST['password']);
-        } else { 
+            $_POST['password'] = (new Helper())->sanitize($_POST['password']);
+        } else {
             $this->printError('password_1');
             return $this->showLoginForm();
         }
         $this->login($_POST);
-
     }
 
     public function login($user)
     {
-        if ($result = (new DbHelper)->checkUsername($user['username'])) {
-           if (password_verify($user['password'],$result['password'])) {
-                $_SESSION['userid'] = $result['id'];
-                $_SESSION['username'] = $result['username'];
+        if ($dbuser = (new DbHelper())->checkUsername($user['username'])) {
+            if (password_verify($user['password'], $dbuser['password'])) {
+                (new Helper())->setUserSession($dbuser);
                 $homePage = new \StoreApp\Views\Home();
                 return $homePage->display();
             } else {
@@ -46,9 +44,16 @@ class LoginController
             $this->printError('username_not_found');
             return $this->showLoginForm();
         }
-        
     }
-    
+
+    public function logout()
+    {
+        if(!(new Helper())->unsetUserSession()) {
+          $this->printError('logout');
+        }
+        return $this->showLoginForm();
+    }
+
     public function showLoginForm()
     {
         $loginPage = new \StoreApp\Views\LoginForm();

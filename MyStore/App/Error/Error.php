@@ -35,7 +35,9 @@ class Error
             case 'incorrect_password': echo "<br>Password not correct.Please try again..!!</br>";
                 break;  
             case 'username_not_found': echo "<br>This username doesnot exists.Please try again..!!</br>";
-                break;      
+                break;
+            case 'logout': echo "<br>Error while logging out.Please try again..!!</br>";
+            break;      
         }
     }
 }

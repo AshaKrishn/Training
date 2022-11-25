@@ -37,7 +37,7 @@ class Registration extends Database
         $insertId = $this->conn->lastInsertId();
         if ($insertId) {
             $this->registerUserAddresses($insertId, $newUser);
-            return true;
+            return $insertId;
         } else {
             return false;
         }
