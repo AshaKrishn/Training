@@ -57,8 +57,7 @@ class RegisterController
         if ($user['id'] = $newRegistration->registerUser($user)) {
             echo "Successfully registered..!";
             (new Helper())->setUserSession($user);
-            $homePage = new \StoreApp\Views\Home();
-            return $homePage->display();
+            (new Helper())->redirect('login');
         } else {
             echo "Error while Registering";
             return $this->showRegistrationForm();

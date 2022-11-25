@@ -34,8 +34,7 @@ class LoginController
         if ($dbuser = (new DbHelper())->checkUsername($user['username'])) {
             if (password_verify($user['password'], $dbuser['password'])) {
                 (new Helper())->setUserSession($dbuser);
-                $homePage = new \StoreApp\Views\Home();
-                return $homePage->display();
+                (new Helper())->redirect('login');
             } else {
                 $this->printError('incorrect_password');
                 return $this->showLoginForm();
@@ -51,7 +50,7 @@ class LoginController
         if(!(new Helper())->unsetUserSession()) {
           $this->printError('logout');
         }
-        return $this->showLoginForm();
+        (new Helper())->redirect('logout');
     }
 
     public function showLoginForm()

@@ -37,7 +37,15 @@ class Error
             case 'username_not_found': echo "<br>This username doesnot exists.Please try again..!!</br>";
                 break;
             case 'logout': echo "<br>Error while logging out.Please try again..!!</br>";
-            break;      
+                break; 
+            case 'product_name': echo "<br>Please specify the product name ..!!</br>";
+                break; 
+            case 'product_make': echo "<br>Please specify the make..!!</br>";
+                break; 
+            case 'product_price': echo "<br>Product price cannot be empty..!!</br>";
+                break; 
+            case 'product_price_format': echo "<br>Please enter price in correct format..!!</br>";
+                break; 
         }
     }
 }

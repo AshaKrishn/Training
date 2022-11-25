@@ -23,8 +23,9 @@ if (isset($_SESSION['userid'])) {
     $route->add('login', 'StoreApp\Views\LoginForm', 'display');
     $route->add('validateLogin', 'StoreApp\Controllers\LoginController', 'validateLogin');
     $route->add('AddProduct', 'StoreApp\Views\ProductForm', 'addProduct');
+    $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validateAddProduct');
 }
 
-//include 'header.php';
+include 'header.php';
 $route->routeToThisUrl();
 include 'footer.php';

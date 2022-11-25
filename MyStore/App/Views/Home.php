@@ -7,7 +7,6 @@ class Home
 {
     public function display()
     {
-        echo "welcome ".$_SESSION['username'].    "   <a href='logout'>Logout</a><br>";
         echo "<br>Product listing here";
         return;
     }
