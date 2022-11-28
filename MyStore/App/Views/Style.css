@@ -1,0 +1,16 @@
+body {
+    background-color: bisque;
+}
+.list-header, .list-header ul {
+    list-style-type: none;
+    font-family:monospace; 
+    font-size: 16px; 
+    font-display: block;
+}
+.list-header {
+    padding: 0;
+}
+.list-header ul li {
+    padding-inline-start: 2ch;
+    display:inline;
+}

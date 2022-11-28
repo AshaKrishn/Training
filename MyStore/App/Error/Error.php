@@ -46,6 +46,10 @@ class Error
                 break; 
             case 'product_price_format': echo "<br>Please enter price in correct format..!!</br>";
                 break; 
+            case 'no_address_found': echo "<br>Please add address before ordering products..!!</br>";
+                break; 
+            case 'cart_add_error': echo "<br>Could not add to the cart.Please try again..!!</br>";
+                break;   
         }
     }
 }

@@ -22,9 +22,11 @@ class Helper
         $host = $_SERVER['HTTP_HOST'];
         $uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
         switch ($status) {
-            case 'login' : header("Location:http://$host$uri/home");
+            case 'login' : header("Location:http://$host$uri/viewProducts");
                 exit;
             case 'logout' : header("Location:http://$host$uri/");
+                exit;
+            case 'cart' : header("Location:http://$host$uri/viewCart");
                 exit;
         }
         

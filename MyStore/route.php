@@ -21,7 +21,7 @@ class route
     {
         $getUri = isset($_REQUEST['uri']) ? $_REQUEST['uri'] : '/';
         $key = array_search ($getUri, $this->uri);
-        if($key) {
+        if($key !== false) {  
             $class = $this->class[$key];
             $method = $this->method[$key];
             (new $class())->$method();

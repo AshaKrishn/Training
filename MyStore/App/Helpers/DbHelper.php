@@ -13,4 +13,14 @@ class DbHelper extends Database
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
+
+
+    public function getUserAddresses($userId) 
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM user_addresses WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
 }
