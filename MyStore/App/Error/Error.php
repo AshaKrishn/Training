@@ -50,6 +50,8 @@ class Error
                 break; 
             case 'cart_add_error': echo "<br>Could not add to the cart.Please try again..!!</br>";
                 break;   
+            case 'no_item_selected': echo "<br>Please select an item..!!</br>";
+                break;    
         }
     }
 }

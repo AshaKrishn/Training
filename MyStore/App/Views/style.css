@@ -1,0 +1,117 @@
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    color: rgb(26, 16, 16);
+}
+.header {
+    font-family:monospace; 
+    font-size: 14px; 
+    padding: 16px;
+}
+.home-page a {
+    font-family: monospace;
+    font-size: 14px;
+    text-align: left;
+    color: rgb(109, 99, 99);
+    padding:    16px;
+    display: list-item;
+}
+.list-header, .list-header ul {
+    list-style-type: none;
+    font-family:monospace; 
+    font-size: 14px; 
+    font-display: block;
+    
+}
+.list-content, .list-content ul {
+    list-style-type: none;
+    font-family:monospace; 
+    font-size: 14px; 
+    font-display: block;
+    
+}
+.list-header ul li{
+    display:inline;
+    padding: 14px 16px;
+}
+.list-content ul li{
+    display:inline;
+    padding: 14px 16px;
+}
+
+form {
+    background-color: rgb(228, 229, 229);
+    border: 3px solid #f1f1f1;
+    
+}
+
+.input-form {
+    width: auto;
+    padding: 5px 8px;
+}
+  
+.input-group {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 2px 0;
+    display: inline-block;
+    box-sizing: border-box;
+}
+input[type="text"], input[type="password"] {
+    padding-left: 2px;
+}
+.input-group label{
+    width: 10%;
+    padding: 6px 10px;
+    text-align: left;
+    margin: 2px 0;
+    display: inline-block;
+    box-sizing: border-box;
+}
+button {
+    background-color: hsl(158, 95%, 34%);
+    color: white;
+    font-family: monospace;
+    font-size: 1.2em;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width:auto;
+}
+label {
+    font-family: monospace;
+    font-size:large;
+    text-align: center;
+    color: rgb(109, 99, 99);
+    padding-right: 8%;
+}
+p {
+    font-family: monospace;
+    text-align: left;
+    text-decoration: none;
+    outline: none;
+}
+a {
+    font-family: monospace;
+    text-align: left;
+    color: rgb(109, 99, 99);
+}
+.footer {
+    font-family:monospace; 
+    font-size: 12px; 
+    padding: 16px;  
+}
+.list-cart-content {
+    border-bottom: 2ex;
+    border-color: blue;
+}
+.list-cart-content ul li{
+    display:inline;
+    padding: 14px 20px;
+    font-family:monospace; 
+    font-size: 14px;
+
+}

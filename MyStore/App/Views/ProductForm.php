@@ -14,8 +14,8 @@ class ProductForm
 		<!DOCTYPE html>
 		<html>
 		<head>
+		<style type="text/css"><?php include 'style.css'; ?></style>
 		<title>Add Product</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
 		</head>
 		<body>
 		<p>
@@ -69,35 +69,8 @@ class ProductForm
 		<!DOCTYPE html>
 		<html>
 		<head>
+		<style type="text/css"><?php include 'style.css'; ?></style>
 		<title>Show Products</title>
-		<style>
-			body {
-				background-color: bisque;
-			}
-			.list-header, .list-header ul {
-				list-style-type: none;
-				font-family:monospace; 
-				font-size: 14px; 
-				font-display: block;
-				
-			}
-			.list-content, .list-content ul {
-				list-style-type: none;
-				font-family:monospace; 
-				font-size: 14px; 
-				font-display: block;
-				
-			}
-			.list-header ul li{
-				display:inline;
-				padding: 14px 16px;
-			}
-			.list-content ul li{
-				display:inline;
-				padding: 14px 16px;
-			}
-		</style>
-		<link rel="stylesheet" type="text/css" href="Style.css">
 		</head>
 		<body>
 		<p>

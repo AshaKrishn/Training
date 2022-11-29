@@ -12,8 +12,9 @@ class LoginForm
         <!DOCTYPE html>
 		<html>
 		<head>
+		<style type="text/css"><?php include 'style.css'; ?></style>	
 		<title>Login Form</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
+		
 		</head>
 		<body>
 		<p>
@@ -23,7 +24,7 @@ class LoginForm
 			<h2>Login</h2>
 		</div>
 			
-		<form method="post" action="validateLogin" method="post">
+		<form class = "input-form" method="post" action="validateLogin" method="post">
 			<div class="input-group">
 			<label>Username</label>
 			<input type="text" name="username" >

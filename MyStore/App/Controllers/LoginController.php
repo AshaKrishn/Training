@@ -14,18 +14,17 @@ class LoginController
         if (empty($_POST)) {
             return $this->showLoginForm();
         }
-        if (!empty($_POST['username'])) {
-            $_POST['username'] = (new Helper())->sanitize($_POST['username']);
-        } else {
-            $this->printError('username');
+        if (empty($_POST['username'])) {
+            (new Helper())->printError('username');
             return $this->showLoginForm();
         }
-        if (!empty($_POST['password'])) {
-            $_POST['password'] = (new Helper())->sanitize($_POST['password']);
-        } else {
-            $this->printError('password_1');
+        $_POST['username'] = (new Helper())->sanitize($_POST['username']);
+      
+        if (empty($_POST['password'])) {
+            (new Helper())->printError('password_1');
             return $this->showLoginForm();
-        }
+        } 
+        $_POST['password'] = (new Helper())->sanitize($_POST['password']);
         $this->login($_POST);
     }
 
@@ -36,11 +35,11 @@ class LoginController
                 (new Helper())->setUserSession($dbuser);
                 (new Helper())->redirect('login');
             } else {
-                $this->printError('incorrect_password');
+                (new Helper())->printError('incorrect_password');
                 return $this->showLoginForm();
             }
         } else {
-            $this->printError('username_not_found');
+            (new Helper())->printError('username_not_found');
             return $this->showLoginForm();
         }
     }
@@ -48,7 +47,7 @@ class LoginController
     public function logout()
     {
         if(!(new Helper())->unsetUserSession()) {
-          $this->printError('logout');
+            (new Helper())->printError('logout');
         }
         (new Helper())->redirect('logout');
     }
@@ -57,10 +56,5 @@ class LoginController
     {
         $loginPage = new \StoreApp\Views\LoginForm();
         return $loginPage->display();
-    }
-    public function printError($errMsg)
-    {
-        $error = new \StoreApp\Error\Error();
-        return $error->errorMessage($errMsg);
     }
 }

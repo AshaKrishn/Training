@@ -15,7 +15,7 @@ class RegistrationForm
 		<html>
 		<head>
 		<title>Registration Form</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<style type="text/css"><?php include 'style.css'; ?></style>
 		</head>
 		<body>
 		<p>
@@ -24,7 +24,7 @@ class RegistrationForm
 		<div class="header">
 			<h2>Register</h2>
 		</div>
-		<form method="post" action="validateRegistration" method="post">
+		<form method="post" class = "input-form" action="validateRegistration" method="post">
 		
 			<div class="input-group">
 			<label>Firstname</label>

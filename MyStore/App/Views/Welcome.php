@@ -7,16 +7,25 @@ class Welcome
 {
     public function display()
     {
-        echo "<html>";
-            echo "<head>";
-                echo "<title>My Store</title>";
-            echo "</head>";
-            echo "<body>";
-                echo "<p>Welcome to My Store !!<p>";
-                echo "<br><a href=\"login\"> Click here to login </br></a>";
-                echo "<br><a href=\"register\"> Click here to register</br> </a>";
-            echo "</body>";
-        echo "</html>";
+
+?>
+<!DOCTYPE html>
+	<html>
+		<head>
+        <style type="text/css"><?php include 'style.css'; ?></style>
+		<title>My Store</title>
+		</head>
+		<body>
+		<p class='header'>Welcome to My Store !!<p>
+        <div class='home-page'>
+	    <a href="login">Click here to login</a>
+		<a href="register">Click here to register</a>
+        </div>
+        </body>
+    </html>
+       
+<?php
     }
 }
+?>
 

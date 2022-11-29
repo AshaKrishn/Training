@@ -16,6 +16,9 @@ if (isset($_SESSION['userid'])) {
     $route->add('showAddresses', 'StoreApp\Controllers\ProductController', 'showAddresses');
     $route->add('addToCart', 'StoreApp\Controllers\ProductController', 'addToCart');
     $route->add('viewCart', 'StoreApp\Controllers\ProductController', 'showCart');
+    $route->add('orderItems', 'StoreApp\Controllers\ProductController', 'showCart');
+    $route->add('updateCart', 'StoreApp\Controllers\ProductController', 'updateCart');
+    $route->add('placeOrder', 'StoreApp\Controllers\OrderController', 'placeOrder');
 } else {
     $route->add('/', 'StoreApp\Views\Welcome', 'display');
     $route->add('App/', 'StoreApp\Views\Welcome', 'display');

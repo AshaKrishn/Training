@@ -23,12 +23,12 @@ class RegisterController
                 }
             } elseif (($key == 'firstname') || ($key == 'username') || ($key == 'password_1')
                         || ($key == 'password_2') || ($key == 'phoneno') || ($key == 'email')) {
-                $this->printError($key);
+                (new Helper())->printError($key);
                 return $this->showRegistrationForm();
             }
         }
         if ($user['password_1'] !== $user['password_2']) {
-            $this->printError('password_mismatch');
+            (new Helper())->printError('password_mismatch');
             return $this->showRegistrationForm();
         }
         $user['password_1'] = password_hash($user['password_1'], PASSWORD_DEFAULT);
@@ -38,10 +38,10 @@ class RegisterController
     public function validatePhoneNo($phoneno)
     {
         if (!preg_match("/^[0-9]*$/", $phoneno)) {
-            $this->printError('phone_not_number');
+            (new Helper())->printError('phone_not_number');
             return $this->showRegistrationForm();
         } elseif (strlen($phoneno)!=10) {
-            $this->printError('phone_length_mismatch');
+            (new Helper())->printError('phone_length_mismatch');
             return $this->showRegistrationForm();
         }
         return true;
@@ -50,7 +50,7 @@ class RegisterController
     public function register($user)
     {
         if ((new DbHelper())->checkUsername($user['username'])) {
-            $this->printError('username_exists');
+            (new Helper())->printError('username_exists');
             return $this->showRegistrationForm();
         }
         $newRegistration = new Registration();
@@ -75,13 +75,6 @@ class RegisterController
         $page = new \StoreApp\Views\Home();
         return $page->display();
     }
-
-    public function printError($errMsg)
-    {
-        $error = new \StoreApp\Error\Error();
-        return $error->errorMessage($errMsg);
-    }
-
     public function showWelcomePage()
     {
         echo "<p><a href='index'><< Back to Home >></a></p>";

@@ -1,5 +1,7 @@
 <?php
 if (isset($_SESSION['userid'])) {
+    echo "welcome ".$_SESSION['username'] ."<br>";
     echo "<a href='index.php'>Home</a>    ";
-    echo "welcome ".$_SESSION['username']."<a href='logout'>Logout</a><br>";
+    echo "<a href='viewCart'>Cart</a>    ";
+    echo "<a href='logout'>Logout</a><br>";
 } 

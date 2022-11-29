@@ -91,5 +91,24 @@ class Product extends Database
         return $stmt->fetchAll();
    }
 
+   public function deleteCartItems($cartIDArray)
+    {
+        $inIds = ''; 
+        $bindParams = array();
+        foreach ($cartIDArray as $key=>$cartId) {
+            $inIds .= ":id$key,";//:id1, :id2, :id3
+            $bindParams[":id$key"] = $cartId;
+        } 
+        $inIds = rtrim($inIds,',');
+        $stmt = $this->conn->prepare("DELETE FROM carts WHERE id IN ($inIds)");
+        try {
+            $stmt->execute($bindParams);
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+
 
 }

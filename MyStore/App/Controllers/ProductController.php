@@ -16,24 +16,23 @@ class ProductController
         if (empty($_POST)) {
             return $this->showProductForm('add');
         }
-        if (!empty($_POST['name'])) {
-            $_POST['name'] = (new Helper())->sanitize($_POST['name']);
-        } else {
-            $this->printError('product_name');
+        if (empty($_POST['name'])) {
+            (new Helper())->printError('product_name');
             return $this->showProductForm('add');
-        }
-        if (!empty($_POST['make'])) {
-            $_POST['make'] = (new Helper())->sanitize($_POST['make']);
-        } else {
-            $this->printError('product_make');
+        } 
+        $_POST['name'] = (new Helper())->sanitize($_POST['name']);
+        if (empty($_POST['make'])) {
+            (new Helper())->printError('product_make');
             return $this->showProductForm('add');
-        }
-        if (!empty($_POST['price'])) {
-            $_POST['price'] = (new Helper())->sanitize($_POST['price']);
-            $this->validatePrice($_POST['price']);
-        } else {
-            $this->printError('product_price');
-            return $this->showProductForm('add');
+        } 
+        $_POST['make'] = (new Helper())->sanitize($_POST['make']);
+        if (empty($_POST['price'])) {
+           (new Helper())->printError('product_price');
+            return $this->showProductForm('add'); 
+        } 
+        $_POST['price'] = (new Helper())->sanitize($_POST['price']);
+        if (!(new Helper())->validatePrice($_POST['price'])) {
+            $this->showProductForm('add');
         }
         $this->addProduct($_POST);
     }
@@ -57,25 +56,36 @@ class ProductController
         return $this->showProductForm('list', $productLists);
     }
 
-    public function showAddresses()
+    public function updateCart()
     {
+        $items = array(); 
+        $cartIds = array();
         if (!$_POST) {
             $product = new Product();
             if ($productLists = $product->getProducts()) {
                 return $this->showProductForm('list', $productLists);
             }
         }
-        $userAddresses = (new DbHelper())->getUserAddresses($_SESSION['userid']);
-        if (!$userAddresses) {
-            $this->printError('no_address_found');
-            return false;
+        //revisit this code
+        foreach ($_POST as $value) {
+            if (isset($value['id'])) {
+                $items[] = $value;
+                $cartIds[] = $value['id'] ;
+            }
         }
-        foreach ($userAddresses as $key=>$address) {
-            echo "<pre>";
-            print_r($address);
-
+        if (empty($items)) {
+            (new Helper())->printError('no_item_selected');
+            return $this->showCart();
         }
-        die();
+        if ($_POST['action'] == 'buy') {
+            $userAddresses = (new DbHelper())->getUserAddresses($_SESSION['userid']);
+            $cartView = new \StoreApp\Views\CartView();
+            return $cartView->viewShippingAddresses($items, $userAddresses);
+        } 
+        // remove items from cart
+        $product = new Product();
+        $product->deleteCartItems($cartIds);
+        (new Helper())->redirect('cart');
     }
 
     public function addToCart()
@@ -86,27 +96,18 @@ class ProductController
         $product = new Product();
         if ($product->addProductToCart($order)) {
             echo "Successfully added the product..!";
-            //return $this->showCart();
             (new Helper())->redirect('cart');
         } else {
-            $this->printError('cart_add_error');
+            (new Helper())->printError('cart_add_error');
             return $this->showProductForm('lists');
         }
     }
 
-    public function validatePrice($price) {
-        if (!preg_match("/^[0-9]+(\.[0-9]{2})?$/", $price)) {
-            $this->printError('product_price_format');
-            return $this->showProductForm('add');
-        }
-        return true;
-    }
-    
+      
     public function showCart()
     {
         $product = new Product();
         $cartItems = $product->getUserCartItems($_SESSION['userid']);
-        
         $cartView = new \StoreApp\Views\CartView();
         return $cartView->display($cartItems);
         
@@ -123,9 +124,4 @@ class ProductController
         return false;
     }
 
-    public function printError($errMsg)
-    {
-        $error = new \StoreApp\Error\Error();
-        return $error->errorMessage($errMsg);
-    }
 }
