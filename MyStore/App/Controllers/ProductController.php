@@ -60,12 +60,14 @@ class ProductController
     {
         $items = array(); 
         $cartIds = array();
-        if (!$_POST) {
+       
+        if (!$_POST || $_POST['action'] == 'productLists') {
             $product = new Product();
             if ($productLists = $product->getProducts()) {
                 return $this->showProductForm('list', $productLists);
             }
         }
+        
         //revisit this code
         foreach ($_POST as $value) {
             if (isset($value['id'])) {

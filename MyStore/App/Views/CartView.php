@@ -19,7 +19,15 @@ class CartView
     
 		</head>
 		<body>
-		
+		<form method="post" action="updateCart" method="post">
+		<?php
+		if(!$cartItems) {
+				echo "No Items in your cart..!";
+		?>
+				<button type="submit" class="button" name="action" value="productLists">Start Shopping</button>
+		<?php
+		} else {
+		?>
 		<div class="header">
 			<h2>Items in your cart</h2>
 		</div>
@@ -34,11 +42,9 @@ class CartView
 			</ul> 	
 		 </div>
 			
-		<form method="post" action="updateCart" method="post">
+		
 		<?php 
-			if(!$cartItems) {
-				echo "No Items in your cart..!";
-			} else {
+			
 				foreach ($cartItems as $key => $item) {
                 ?>
 					<div class="list-content">
@@ -54,10 +60,14 @@ class CartView
 					</div>
 				<?php
 				}
+			?>
+			
+			<button type="submit" class="button" name="action" value="buy">Buy Now</button>
+        	<button type="submit" class="button" name="action" value ="remove">Remove from cart</button>
+		<?php
 			}
 		?>	
-		<button type="submit" class="button" name="action" value="buy">Buy Now</button>
-        <button type="submit" class="button" name="action" value ="remove">Remove from cart</button>
+		
 		</form>
 		</body>
 		</html>
@@ -80,9 +90,6 @@ class CartView
     
 		</head>
 		<body>
-		<p>
-			<a href="index"><< Back to Home >></a>
-		</p>
 		<div class="header">
 			<h2>Select the address to which these items need to be shipped</h2>
 		</div>

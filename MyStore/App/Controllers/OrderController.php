@@ -3,6 +3,7 @@
 namespace StoreApp\Controllers;
 
 use StoreApp\Data\Order;
+use StoreApp\Data\Product;
 use StoreApp\Controllers\ProductController;
 use StoreApp\Helpers\DbHelper;
 use StoreApp\Helpers\Helper;
@@ -18,13 +19,18 @@ class OrderController
             $product = new ProductController();
             return $product->showCart();
         }
-        /*
+        
         echo "<pre>";
         print_r($_POST);
         foreach ($_POST['id'] as $cartId) {
-
+            $item = (new Product)->getUserCartItems($_SESSION['userid'],$cartId);
+            echo "<pre>";
+            print_r($item);
+            $order = (new Order)->addOrder($item,$_POST['address']);
         }
-        */
+       
 
     }
+
+  
 }

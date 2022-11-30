@@ -73,11 +73,8 @@ class ProductForm
 		<title>Show Products</title>
 		</head>
 		<body>
-		<p>
-			<a href="index"><< Back to Home >></a>
-		</p>
 		<div class="header">
-			<h2>Product Lists</h2>
+			<h2>Products</h2>
 		</div>
 		<div class="list-header">
 			<ul>

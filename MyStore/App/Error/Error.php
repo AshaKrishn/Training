@@ -24,6 +24,16 @@ class Error
                 break;
             case 'email': echo "<br>Email required..!!</br>";
                 break;
+            case 'address': echo "<br>Address required..!!</br>";
+                break;
+            case 'city': echo "<br>City required..!!</br>";
+                break;
+            case 'state': echo "<br>State required..!!</br>";
+                break;
+            case 'country': echo "<br>Country required..!!</br>";
+                break;
+            case 'pincode': echo "<br>Pincode required..!!</br>";
+                break;
             case 'password_mismatch': echo "<br>Confirm password is not matching with the password entered..!!</br>";
                 break;
             case 'phone_not_number': echo "<br>Please enter only numeric value for phone number..!!</br>";
@@ -52,6 +62,11 @@ class Error
                 break;   
             case 'no_item_selected': echo "<br>Please select an item..!!</br>";
                 break;    
+            case 'user_not_found': echo "<br>User not found..!!</br>";
+                break; 
+            case 'unauthorised_access': echo "<br>Unauthorised Login.Please relogin.!!</br>";
+                break;
+                
         }
     }
 }

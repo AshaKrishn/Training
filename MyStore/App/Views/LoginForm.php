@@ -27,7 +27,7 @@ class LoginForm
 		<form class = "input-form" method="post" action="validateLogin" method="post">
 			<div class="input-group">
 			<label>Username</label>
-			<input type="text" name="username" >
+			<input type="text" name="username" value="<?php echo (isset($_POST['username'])) ? $_POST['username'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Password</label>

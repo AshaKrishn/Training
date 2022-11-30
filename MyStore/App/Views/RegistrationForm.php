@@ -28,11 +28,11 @@ class RegistrationForm
 		
 			<div class="input-group">
 			<label>Firstname</label>
-			<input type="text" name="firstname" value="<?php echo (isset($_POST['firstname'])) ? $_POST['firstname'] : 'asha'; ?>">
+			<input type="text" name="firstname" value="<?php echo (isset($_POST['firstname'])) ? $_POST['firstname'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Lastname</label>
-			<input type="text" name="lastname" value="<?php echo (isset($_POST['lastname'])) ? $_POST['lastname'] : 'asha'; ?>">
+			<input type="text" name="lastname" value="<?php echo (isset($_POST['lastname'])) ? $_POST['lastname'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Username</label>
@@ -40,15 +40,15 @@ class RegistrationForm
 			</div>
 			<div class="input-group">
 			<label>Password</label>
-			<input type="password" name="password_1"  value="<?php echo (isset($_POST['password_1'])) ? $_POST['password_1'] : '123'; ?>">
+			<input type="password" name="password_1"  value="<?php echo (isset($_POST['password_1'])) ? $_POST['password_1'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Confirm password</label>
-			<input type="password" name="password_2"  value="<?php echo (isset($_POST['password_2'])) ? $_POST['password_2'] : '123'; ?>">
+			<input type="password" name="password_2"  value="<?php echo (isset($_POST['password_2'])) ? $_POST['password_2'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Email</label>
-			<input type="email" name="email"  value="<?php echo (isset($_POST['email'])) ? $_POST['email'] : 'asha@yahoo.com'; ?>">
+			<input type="email" name="email"  value="<?php echo (isset($_POST['email'])) ? $_POST['email'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Phone No</label>
@@ -78,19 +78,19 @@ class RegistrationForm
 			</div>
 			<div class="input-group">
 			<label>City</label>
-			<input type="text" name="city" value="<?php echo (isset($_POST['city'])) ? $_POST['city'] : 'Kochin'; ?>">
+			<input type="text" name="city" value="<?php echo (isset($_POST['city'])) ? $_POST['city'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>State</label>
-			<input type="text" name="state" value="<?php echo (isset($_POST['state'])) ? $_POST['state'] : 'Kerala'; ?>">
+			<input type="text" name="state" value="<?php echo (isset($_POST['state'])) ? $_POST['state'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Country</label>
-			<input type="text" name="country" value="<?php echo (isset($_POST['country'])) ? $_POST['country'] : 'India'; ?>">
+			<input type="text" name="country" value="<?php echo (isset($_POST['country'])) ? $_POST['country'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Pincode</label>
-			<input type="text" name="pincode" value="<?php echo (isset($_POST['pincode'])) ? $_POST['pincode'] : '688097'; ?>">
+			<input type="text" name="pincode" value="<?php echo (isset($_POST['pincode'])) ? $_POST['pincode'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<button type="submit" class="button" >Register Me</button>

@@ -11,40 +11,13 @@ class RegisterController
 {
     public function validateRegistration()
     {
-        $user = $_POST;
-        if (empty($user)) {
+        if (empty($_POST)) {
             return $this->showRegistrationForm();
         }
-        foreach ($user as $key=>$value) {
-            if (!empty($value)) {
-                $user[$key] = (new Helper())->sanitize($value);
-                if ($key == 'phoneno') {
-                    $this->validatePhoneNo($value);
-                }
-            } elseif (($key == 'firstname') || ($key == 'username') || ($key == 'password_1')
-                        || ($key == 'password_2') || ($key == 'phoneno') || ($key == 'email')) {
-                (new Helper())->printError($key);
-                return $this->showRegistrationForm();
-            }
-        }
-        if ($user['password_1'] !== $user['password_2']) {
-            (new Helper())->printError('password_mismatch');
+        if(!$user = (new Helper())->validateUserInput($_POST)) {
             return $this->showRegistrationForm();
         }
-        $user['password_1'] = password_hash($user['password_1'], PASSWORD_DEFAULT);
         $this->register($user);
-    }
-
-    public function validatePhoneNo($phoneno)
-    {
-        if (!preg_match("/^[0-9]*$/", $phoneno)) {
-            (new Helper())->printError('phone_not_number');
-            return $this->showRegistrationForm();
-        } elseif (strlen($phoneno)!=10) {
-            (new Helper())->printError('phone_length_mismatch');
-            return $this->showRegistrationForm();
-        }
-        return true;
     }
 
     public function register($user)

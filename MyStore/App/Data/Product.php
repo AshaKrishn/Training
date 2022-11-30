@@ -77,11 +77,18 @@ class Product extends Database
     }
    }
 
-   public function getUserCartItems($userId)
+   public function getUserCartItems($userId,$cartId=null)
     {
-        $stmt = $this->conn->prepare("SELECT product_id,name,make,price,currency,carts.id as cart_id,quantity FROM products 
-                                INNER JOIN carts ON (products.id = carts.product_id) WHERE user_id = :user_id");
+        $str = '';
+        if($cartId) {
+            $str = " AND carts.id=:cart_id";
+        }
+        $stmt = $this->conn->prepare("SELECT user_id,product_id,name,make,price,currency,carts.id as cart_id,quantity FROM products 
+                                INNER JOIN carts ON (products.id = carts.product_id) WHERE user_id = :user_id $str");
         $stmt->bindParam(':user_id', $userId, \PDO::PARAM_INT);
+        if($cartId) {
+            $stmt->bindParam(':cart_id', $cartId, \PDO::PARAM_INT);
+        }
         try {
             $stmt->execute();
         } catch (\PDOException $e) {
@@ -108,7 +115,7 @@ class Product extends Database
             die();
         }
     }
-
+    
 
 
 }
