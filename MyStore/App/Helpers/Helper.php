@@ -31,7 +31,9 @@ class Helper
             case 'address' : header("Location:http://$host$uri/addAddressForm");
                 exit;
             case 'profile' : header("Location:http://$host$uri/editProfile");
-                exit;    
+                exit; 
+            case 'orders' : header("Location:http://$host$uri/myOrders");
+                exit;   
         }
         
     }

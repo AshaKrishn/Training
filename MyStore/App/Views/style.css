@@ -115,3 +115,12 @@ a {
     font-size: 14px;
 
 }
+.tbl-list{
+    font-family:monospace; 
+    font-size: 14px;
+    text-align: left;
+}
+.tbl-list tr th{
+    text-decoration: none;
+    
+}

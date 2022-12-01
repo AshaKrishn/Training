@@ -95,6 +95,9 @@ class Product extends Database
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
+        if ($cartId) {
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        }
         return $stmt->fetchAll();
    }
 

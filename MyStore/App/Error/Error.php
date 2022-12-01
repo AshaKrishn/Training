@@ -66,6 +66,8 @@ class Error
                 break; 
             case 'unauthorised_access': echo "<br>Unauthorised Login.Please relogin.!!</br>";
                 break;
+            case 'checkout': echo "<br>Error while checking out..!</br>";
+                break;    
                 
         }
     }

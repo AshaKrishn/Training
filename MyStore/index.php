@@ -25,6 +25,11 @@ if (isset($_SESSION['userid'])) {
     $route->add('updatePassword', 'StoreApp\Controllers\ProfileController', 'updatePassword');
     $route->add('addAddressForm', 'StoreApp\Views\UserProfileForm', 'addAddressForm');
     $route->add('addAddress', 'StoreApp\Controllers\ProfileController', 'addAddress');
+    $route->add('myOrders', 'StoreApp\Controllers\OrderController', 'viewOrders');
+    $route->add('updateOrders', 'StoreApp\Controllers\OrderController', 'updateOrders');
+    $route->add('manageOrders', 'StoreApp\Controllers\OrderController', 'manageOrders');
+    $route->add('AddProduct', 'StoreApp\Views\ProductForm', 'addProduct');
+    $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validateAddProduct');
 } else {
     $route->add('/', 'StoreApp\Views\Welcome', 'display');
     $route->add('App/', 'StoreApp\Views\Welcome', 'display');
@@ -36,9 +41,7 @@ if (isset($_SESSION['userid'])) {
     $route->add('validateRegistration', 'StoreApp\Controllers\RegisterController', 'validateRegistration');
     $route->add('login', 'StoreApp\Views\LoginForm', 'display');
     $route->add('validateLogin', 'StoreApp\Controllers\LoginController', 'validateLogin');
-    $route->add('AddProduct', 'StoreApp\Views\ProductForm', 'addProduct');
-    $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validateAddProduct');
-    
+       
 }
 
 include 'header.php';

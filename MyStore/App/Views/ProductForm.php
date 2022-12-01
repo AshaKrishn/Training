@@ -18,20 +18,18 @@ class ProductForm
 		<title>Add Product</title>
 		</head>
 		<body>
-		<p>
-			<a href="index"><< Back to Home >></a>
-		</p>
+		
 		<div class="header">
 			<h2>Add Product</h2>
 		</div>
 		<form method="post" action="validateAddProduct" method="post">
 			<div class="input-group">
 			<label>Name </label>
-			<input type="text" name="name" value="<?php echo (isset($_POST['name'])) ? $_POST['name'] : 'clarks'; ?>">
+			<input type="text" name="name" value="<?php echo (isset($_POST['name'])) ? $_POST['name'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Make</label>
-			<input type="text" name="make" value="<?php echo (isset($_POST['make'])) ? $_POST['make'] : 'make'; ?>">
+			<input type="text" name="make" value="<?php echo (isset($_POST['make'])) ? $_POST['make'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Description</label>
@@ -39,7 +37,7 @@ class ProductForm
 			</div>
 			<div class="input-group">
 			<label>Price</label>
-			<input type="text" name="price" value="<?php echo (isset($_POST['price'])) ? $_POST['price'] : '0'; ?>">
+			<input type="text" name="price" value="<?php echo (isset($_POST['price'])) ? $_POST['price'] : ''; ?>">
 			</div>
 			<div class="input-group">
 			<label>Currency</label>
