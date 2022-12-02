@@ -37,44 +37,84 @@ class Product extends Database
         }
    }
 
-   public function getProducts()
+   public function getProducts($id = null)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM products");
+        $str = '';
+        $status = 1;
+        if ($id) {
+            $str  = " AND id=:id";
+        }
+        $stmt = $this->conn->prepare("SELECT * FROM products WHERE status=:status $str");
+        if($id) {
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        }
+        $stmt->bindParam(':status', $status, \PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
+        if ($id) {
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        }
         return $stmt->fetchAll();
-   }
-
-   public function addProductToCart($product)
-   {
-    $stmt = $this->conn->prepare("INSERT INTO carts (
-        user_id,product_id,quantity,created_on,modified_on) 
-        VALUES (:user_id,:product_id,:quantity,:created_on,:modified_on) 
-        ON DUPLICATE KEY UPDATE quantity=quantity+:quantity, modified_on=:modified_on");
-
-    $currentTime = date("Y-m-d H:i:s");
-    $stmt->bindParam(':user_id', $product['userId'], \PDO::PARAM_INT);
-    $stmt->bindParam(':product_id', $product['productId'], \PDO::PARAM_INT);
-    $stmt->bindParam(':quantity', $product['quantity'], \PDO::PARAM_INT);
-    $stmt->bindParam(':created_on', $currentTime);
-    $stmt->bindParam(':modified_on', $currentTime);
-   
-    try {
-        $stmt->execute();
-    } catch (\PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        die();
     }
-    $insertId = $this->conn->lastInsertId();
-    if ($insertId) {
-        return $insertId;
-    } else {
-        return false;
+
+    public function updateProduct($product,$status) 
+    {
+        $str = '';
+        if ($status==0) {
+            $str = "status=:status,modified_on=:modified_on";
+        } else {
+            $str = "description=:description,price=:price,currency=:currency,modified_on=:modified_on";
+        }
+        $stmt = $this->conn->prepare("UPDATE products SET $str WHERE id=:id");
+        $currentTime = date("Y-m-d H:i:s");
+        $stmt->bindParam(':id', $product['id'], \PDO::PARAM_INT);
+        $stmt->bindParam(':modified_on', $currentTime);
+        if ($status==0) {
+            $stmt->bindParam(':status', $status, \PDO::PARAM_INT);
+        } else {
+            $stmt->bindParam(':description', $product['description'], \PDO::PARAM_STR);
+            $stmt->bindParam(':price', $product['price'], \PDO::PARAM_STR);
+            $stmt->bindParam(':currency', $product['currency'], \PDO::PARAM_STR);
+        }
+        try {
+            $stmt->execute();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+        return true;
     }
+
+    public function addProductToCart($product)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO carts (
+            user_id,product_id,quantity,created_on,modified_on) 
+            VALUES (:user_id,:product_id,:quantity,:created_on,:modified_on) 
+            ON DUPLICATE KEY UPDATE quantity=quantity+:quantity, modified_on=:modified_on");
+
+        $currentTime = date("Y-m-d H:i:s");
+        $stmt->bindParam(':user_id', $product['userId'], \PDO::PARAM_INT);
+        $stmt->bindParam(':product_id', $product['productId'], \PDO::PARAM_INT);
+        $stmt->bindParam(':quantity', $product['quantity'], \PDO::PARAM_INT);
+        $stmt->bindParam(':created_on', $currentTime);
+        $stmt->bindParam(':modified_on', $currentTime);
+    
+        try {
+            $stmt->execute();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+        $insertId = $this->conn->lastInsertId();
+        if ($insertId) {
+            return $insertId;
+        } else {
+            return false;
+        }
    }
 
    public function getUserCartItems($userId,$cartId=null)

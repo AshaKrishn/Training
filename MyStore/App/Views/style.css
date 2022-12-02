@@ -106,7 +106,7 @@ a {
 }
 .list-cart-content {
     border-bottom: 2ex;
-    border-color: blue;
+    border-color: rgb(117, 117, 161);
 }
 .list-cart-content ul li{
     display:inline;
@@ -123,4 +123,7 @@ a {
 .tbl-list tr th{
     text-decoration: none;
     
+}
+input:read-only {
+    background-color: rgb(189, 223, 241);
 }

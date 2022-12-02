@@ -34,6 +34,8 @@ class Helper
                 exit; 
             case 'orders' : header("Location:http://$host$uri/myOrders");
                 exit;   
+            case 'products' : header("Location:http://$host$uri/viewProducts");
+                exit;       
         }
         
     }

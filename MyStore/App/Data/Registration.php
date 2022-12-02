@@ -107,14 +107,14 @@ class Registration extends Database
     public function updateUserDetails($user)
     {
         $stmt = $this->conn->prepare("UPDATE users SET first_name=:firstname,last_name=:lastname,
-                    password=:password,phone_no=:phoneno,gender=:gender,email=:email,modified_on=:modified 
+                    phone_no=:phoneno,gender=:gender,email=:email,modified_on=:modified 
                     WHERE id=:userid");
                     
         $currentTime = date("Y-m-d H:i:s");
         $stmt->bindParam(':userid', $user['userid'], \PDO::PARAM_INT);
         $stmt->bindParam(':firstname', $user['firstname'], \PDO::PARAM_STR);
         $stmt->bindParam(':lastname', $user['lastname'], \PDO::PARAM_STR);
-        $stmt->bindParam(':password', $user['password_1'], \PDO::PARAM_STR);
+        //$stmt->bindParam(':password', $user['password_1'], \PDO::PARAM_STR);
         $stmt->bindParam(':phoneno', $user['phoneno'], \PDO::PARAM_INT);
         $stmt->bindParam(':gender', $user['gender'], \PDO::PARAM_STR);
         $stmt->bindParam(':email', $user['email'], \PDO::PARAM_STR);

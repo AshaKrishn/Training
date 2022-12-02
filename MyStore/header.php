@@ -6,4 +6,7 @@ if (isset($_SESSION['userid'])) {
     echo "<a href='myOrders'>My Orders</a>    ";
     echo "<a href='viewCart'>Cart</a>    ";
     echo "<a href='logout'>Logout</a><br>";
+    if ($_SESSION['username'] == 'admin') {
+        echo "<a href='validateAddProduct'>Add Products</a><br>    ";
+    }
 } 
