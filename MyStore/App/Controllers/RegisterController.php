@@ -3,23 +3,19 @@
 namespace StoreApp\Controllers;
 
 use StoreApp\Data\Registration;
-use StoreApp\Helpers\DbHelper;
-use StoreApp\Helpers\Helper;
+use StoreApp\Controllers\BaseController;
 use StoreApp\Views\RegistrationForm;
 
 ini_set('display_errors', 1);
 
-class RegisterController
+class RegisterController extends BaseController
 {
-    public $helper;
-    public $dbHelper;
     public $registration;
     public $registrationForm;
 
     public function __construct()
     {
-        $this->helper = new Helper();
-        $this->dbHelper = new DbHelper();
+        parent::__construct();
         $this->registration = new Registration();
         $this->registrationForm = new RegistrationForm();
     }

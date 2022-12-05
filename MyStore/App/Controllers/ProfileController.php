@@ -3,25 +3,21 @@
 namespace StoreApp\Controllers;
 
 use StoreApp\Data\Registration;
-use StoreApp\Helpers\DbHelper;
-use StoreApp\Helpers\Helper;
+use StoreApp\Controllers\BaseController;
 use StoreApp\Views\LoginForm;
 use StoreApp\Views\UserProfileForm;
 
 ini_set('display_errors', 1);
 
-class ProfileController
+class ProfileController extends BaseController
 {
-    public $helper;
-    public $dbHelper;
     public $loginForm;
     public $userProfileForm;
     public $registration;
 
     public function __construct()
     {
-        $this->helper = new Helper();
-        $this->dbHelper = new DbHelper();
+        parent::__construct();
         $this->loginForm = new LoginForm();
         $this->userProfileForm = new UserProfileForm();
         $this->registration = new Registration();

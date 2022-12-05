@@ -2,21 +2,17 @@
 
 namespace StoreApp\Controllers;
 
-use StoreApp\Helpers\DbHelper;
-use StoreApp\Helpers\Helper;
+use StoreApp\Controllers\BaseController;
 use StoreApp\Views\LoginForm;
 
 ini_set('display_errors', 1);
 
-class LoginController
+class LoginController extends BaseController
 {
-    public $helper;
-    public $dbHelper;
     public $loginForm;
     public function __construct()
     {
-        $this->helper = new Helper();
-        $this->dbHelper = new DbHelper();
+        parent::__construct();
         $this->loginForm = new LoginForm();
     }
     public function validate()

@@ -2,37 +2,42 @@
 
 namespace StoreApp\Controllers;
 
-use StoreApp\Helpers\Helper;
+use StoreApp\Controllers\BaseController;
+use StoreApp\Controllers\CartController;
+use StoreApp\Controllers\ProductController;
+use StoreApp\Data\Cart;
 use StoreApp\Data\Order;
 use StoreApp\Data\Product;
-use StoreApp\Controllers\ProductController;
 use StoreApp\Views\OrderView;
 
 ini_set('display_errors', 1);
 
-class OrderController
+class OrderController extends BaseController
 {
-    public $helper;
     public $product;
     public $order;
+    public $cart;
     public $productController;
+    public $cartController;
     public $orderView;
 
     public function __construct()
     {
-        $this->helper = new Helper();
-        $this->product = new Product();
+        parent::__construct();
         $this->order = new Order();
+        $this->cart = new Cart();
+        $this->product = new Product();
         $this->productController = new ProductController();
+        $this->cartController = new CartController();
         $this->orderView = new OrderView();
     }
     public function add()
     {
         if (!$_POST) {
-            return $this->productController->showCart();
+            return $this->cartController->show();
         }
         foreach ($_POST['id'] as $cartId) {
-            $items[] = $this->product->getUserCartItems($_SESSION['userid'],$cartId);
+            $items[] = $this->cart->get($_SESSION['userid'],$cartId);
         }
         if (!$items) {
             $this->helper->printError('checkout');
@@ -52,7 +57,7 @@ class OrderController
             $this->helper->printError('checkout');
             $this->helper->redirect('cart');  
         }
-        $this->product->deleteCartItems($deleteCartIds);
+        $this->cart->delete($deleteCartIds);
         $this->helper->redirect('orders'); 
         
     }

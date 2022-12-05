@@ -13,10 +13,10 @@ if (isset($_SESSION['userid'])) {
     $route->add('logout', 'StoreApp\Controllers\LoginController', 'logout');
     $route->add('viewProducts', 'StoreApp\Controllers\ProductController', 'show');
     $route->add('showAddresses', 'StoreApp\Controllers\ProductController', 'showAddresses');
-    $route->add('manageCart', 'StoreApp\Controllers\ProductController', 'manageCart');
-    $route->add('viewCart', 'StoreApp\Controllers\ProductController', 'showCart');
-    $route->add('orderItems', 'StoreApp\Controllers\ProductController', 'showCart');
-    $route->add('updateCart', 'StoreApp\Controllers\ProductController', 'updateCart');
+    $route->add('manageCart', 'StoreApp\Controllers\CartController', 'manageCart');
+    $route->add('viewCart', 'StoreApp\Controllers\CartController', 'show');
+    $route->add('orderItems', 'StoreApp\Controllers\CartController', 'show');
+    $route->add('updateCart', 'StoreApp\Controllers\CartController', 'update');
     $route->add('placeOrder', 'StoreApp\Controllers\OrderController', 'add');
     $route->add('editProfile', 'StoreApp\Controllers\ProfileController', 'get');
     $route->add('updateProfile', 'StoreApp\Controllers\ProfileController', 'update');
@@ -27,9 +27,9 @@ if (isset($_SESSION['userid'])) {
     $route->add('myOrders', 'StoreApp\Controllers\OrderController', 'view');
     $route->add('updateOrders', 'StoreApp\Controllers\OrderController', 'updateOrders');
     $route->add('manageOrders', 'StoreApp\Controllers\OrderController', 'manageOrders');
-    $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validateAddProduct');
+    $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validate');
     if ($_SESSION['username'] == 'admin') {
-        $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validateAddProduct');
+        $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validate');
         $route->add('manageProduct', 'StoreApp\Controllers\ProductController', 'update');
     }
 } else {
