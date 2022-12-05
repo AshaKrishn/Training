@@ -3,33 +3,34 @@
 session_start();
 require 'vendor/autoload.php';
 require 'route.php';
-
+define('ERROR_MSG_FILE', 'App/Error/Error.json');
 ini_set('display_errors', 1);
+
 
 $route = new route();
 if (isset($_SESSION['userid'])) {
-    $route->add('index.php', 'StoreApp\Controllers\ProductController', 'showProducts');
+    $route->add('index.php', 'StoreApp\Controllers\ProductController', 'show');
     $route->add('logout', 'StoreApp\Controllers\LoginController', 'logout');
-    $route->add('viewProducts', 'StoreApp\Controllers\ProductController', 'showProducts');
+    $route->add('viewProducts', 'StoreApp\Controllers\ProductController', 'show');
     $route->add('showAddresses', 'StoreApp\Controllers\ProductController', 'showAddresses');
     $route->add('manageCart', 'StoreApp\Controllers\ProductController', 'manageCart');
     $route->add('viewCart', 'StoreApp\Controllers\ProductController', 'showCart');
     $route->add('orderItems', 'StoreApp\Controllers\ProductController', 'showCart');
     $route->add('updateCart', 'StoreApp\Controllers\ProductController', 'updateCart');
-    $route->add('placeOrder', 'StoreApp\Controllers\OrderController', 'placeOrder');
-    $route->add('editProfile', 'StoreApp\Controllers\ProfileController', 'getProfile');
-    $route->add('updateProfile', 'StoreApp\Controllers\ProfileController', 'updateProfile');
+    $route->add('placeOrder', 'StoreApp\Controllers\OrderController', 'add');
+    $route->add('editProfile', 'StoreApp\Controllers\ProfileController', 'get');
+    $route->add('updateProfile', 'StoreApp\Controllers\ProfileController', 'update');
     $route->add('changePassword', 'StoreApp\Views\UserProfileForm', 'passwordChangeForm');
     $route->add('updatePassword', 'StoreApp\Controllers\ProfileController', 'updatePassword');
     $route->add('addAddressForm', 'StoreApp\Views\UserProfileForm', 'addAddressForm');
     $route->add('addAddress', 'StoreApp\Controllers\ProfileController', 'addAddress');
-    $route->add('myOrders', 'StoreApp\Controllers\OrderController', 'viewOrders');
+    $route->add('myOrders', 'StoreApp\Controllers\OrderController', 'view');
     $route->add('updateOrders', 'StoreApp\Controllers\OrderController', 'updateOrders');
     $route->add('manageOrders', 'StoreApp\Controllers\OrderController', 'manageOrders');
     $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validateAddProduct');
     if ($_SESSION['username'] == 'admin') {
         $route->add('validateAddProduct', 'StoreApp\Controllers\ProductController', 'validateAddProduct');
-        $route->add('manageProduct', 'StoreApp\Controllers\ProductController', 'manageProduct');
+        $route->add('manageProduct', 'StoreApp\Controllers\ProductController', 'update');
     }
 } else {
     $route->add('/', 'StoreApp\Views\Welcome', 'display');
@@ -39,9 +40,9 @@ if (isset($_SESSION['userid'])) {
     $route->add('App/register', 'StoreApp\Views\RegistrationForm', 'display');
     $route->add('register', 'StoreApp\Views\RegistrationForm', 'display');
     $route->add('error', 'StoreApp\Error', 'pageNotFound');
-    $route->add('validateRegistration', 'StoreApp\Controllers\RegisterController', 'validateRegistration');
+    $route->add('validateRegistration', 'StoreApp\Controllers\RegisterController', 'validate');
     $route->add('login', 'StoreApp\Views\LoginForm', 'display');
-    $route->add('validateLogin', 'StoreApp\Controllers\LoginController', 'validateLogin');
+    $route->add('validateLogin', 'StoreApp\Controllers\LoginController', 'validate');
 }
 
 include 'header.php';

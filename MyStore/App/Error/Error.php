@@ -4,11 +4,6 @@ namespace StoreApp\Error;
 
 class Error
 {
-    public function pageNotFound()
-    {
-        echo "The requested page is not available at the moment...!";
-    }
-
     public function errorMessage($errMsg)
     {
         switch ($errMsg) {

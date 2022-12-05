@@ -5,112 +5,113 @@ namespace StoreApp\Controllers;
 use StoreApp\Data\Registration;
 use StoreApp\Helpers\DbHelper;
 use StoreApp\Helpers\Helper;
+use StoreApp\Views\LoginForm;
+use StoreApp\Views\UserProfileForm;
+
 ini_set('display_errors', 1);
 
 class ProfileController
 {
-    public function getProfile() 
+    public $helper;
+    public $dbHelper;
+    public $loginForm;
+    public $userProfileForm;
+    public $registration;
+
+    public function __construct()
+    {
+        $this->helper = new Helper();
+        $this->dbHelper = new DbHelper();
+        $this->loginForm = new LoginForm();
+        $this->userProfileForm = new UserProfileForm();
+        $this->registration = new Registration();
+    }
+    public function get()
     {
         if (!isset($_SESSION['userid'])) {
-            $this->showLoginForm();
+            $this->loginForm->display();
         }
-        $userDetails = (new DbHelper())->getUserDetails($_SESSION['userid']);
+        $userDetails = $this->dbHelper->getUserDetails($_SESSION['userid']);
         if (!$userDetails) {
-            (new Helper())->printError('user_not_found');
-            (new Helper())->redirect('login');
+            $this->helper->printError('user_not_found');
+            $this->helper->redirect('login');
         }
-        $userAddresses['addresses'] = (new DbHelper())->getUserAddresses($_SESSION['userid']);
+        $userAddresses['addresses'] = $this->dbHelper->getUserAddresses($_SESSION['userid']);
         if (!$userAddresses) {
-            (new Helper())->printError('no_address_found');
-            $this->showLoginForm();
+            $this->helper->printError('no_address_found');
+            $this->loginForm->display();
         }
-        
-        $userDetails = array_merge($userDetails,$userAddresses);
-        $page = new \StoreApp\Views\UserProfileForm();
-        return $page->display($userDetails);
-
+        $userDetails = array_merge($userDetails, $userAddresses);
+        return $this->userProfileForm->display($userDetails);
     }
 
-    public function updateProfile()
+    public function update()
     {
-       
         if (!$_POST) {
-            return $this->getProfile();
+            return $this->get();
         }
         if ($_POST['user']['userid'] != $_SESSION['userid']) {
-            (new Helper())->printError('unauthorised_access');
-            (new Helper())->redirect('login');
+            $this->helper->printError('unauthorised_access');
+            $this->helper->redirect('login');
         }
         if (isset($_POST['remove_address'])) {
-            $userProfile = new Registration();
-            $userProfile->deleteUserAddress($_POST['remove_address']);
-            (new Helper())->redirect('profile');
+            $this->registration->deleteUserAddress($_POST['remove_address']);
+            $this->helper->redirect('profile');
         }
-        
+
         if (isset($_POST['action']) && $_POST['action'] == 'add_address') {
-            (new Helper())->redirect('address');
+            $this->helper->redirect('address');
         }
-      
-        if (!$user = (new Helper())->validateUserInput($_POST['user'])) {
-            return $this->getProfile();
+
+        if (!$user = $this->helper->validateUserInput($_POST['user'])) {
+            return $this->get();
         }
-        $userProfile = new Registration();
-        $userProfile->updateUserDetails($user);
-        if(isset($_POST['address'])) {
+        $this->registration->updateUserDetails($user);
+        if (isset($_POST['address'])) {
             foreach ($_POST['address'] as $address) {
-                if (!$userAddress = (new Helper())->validateUserInput($address)) {
-                    return $this->getProfile();
+                if (!$userAddress = $this->helper->validateUserInput($address)) {
+                    return $this->get();
                 }
-                $userProfile->updateUserAddress($userAddress);
+                $this->registration->updateUserAddress($userAddress);
             }
         }
-        return $this->getProfile();
+        return $this->get();
     }
 
-    public function updatePassword() 
+    public function updatePassword()
     {
         if (!$_POST) {
-            return $this->getProfile();
+            return $this->get();
         }
         if (!isset($_SESSION['userid'])) {
-            (new Helper())->printError('unauthorised_access');
-            (new Helper())->redirect('login');
+            $this->helper->printError('unauthorised_access');
+            $this->helper->redirect('login');
         }
         $_POST['userid'] = $_SESSION['userid'];
-        if(!($user = (new Helper())->validateUserInput($_POST))){
-            $userProfile = new \StoreApp\Views\UserProfileForm();
-            return $userProfile->passwordChangeForm();
+        if (!($user = $this->helper->validateUserInput($_POST))) {
+            return $this->userProfileForm->passwordChangeForm();
         }
-        if (!($dbuser = (new DbHelper())->checkUsername($_SESSION['username']))) {  
-            (new Helper())->printError('user_not_found');
-            (new Helper())->redirect('login');
-        }   
+        if (!($dbuser = $this->dbHelper->checkUsername($_SESSION['username']))) {
+            $this->helper->printError('user_not_found');
+            $this->helper->redirect('login');
+        }
         if (!password_verify($user['password_old'], $dbuser['password'])) {
-            (new Helper())->printError('incorrect_password');
-            $userProfile = new \StoreApp\Views\UserProfileForm();
-            return $userProfile->passwordChangeForm();
+            $this->helper->printError('incorrect_password');
+            return $this->userProfileForm->passwordChangeForm();
         }
-        (new Registration())->updateUserPassword($user);
-        return $this->getProfile();
-        
+        $this->registration->updateUserPassword($user);
+        return $this->get();
     }
 
-    public function addAddress() 
+    public function addAddress()
     {
         if (!$_POST) {
-            return $this->getProfile();
+            return $this->get();
         }
-        if(!($address = (new Helper())->validateUserInput($_POST))){
-            $userProfile = new \StoreApp\Views\UserProfileForm();
-            return $userProfile->addAddressForm();
+        if (!($address = $this->helper->validateUserInput($_POST))) {
+            return $this->userProfileForm->addAddressForm();
         }
-        (new Registration())->registerUserAddresses($_SESSION['userid'],$address);
-        (new Helper())->redirect('profile');
-    }
-
-    public function showLoginForm()
-    {
-        $loginPage = new \StoreApp\Views\LoginForm();
-        return $loginPage->display();
+        $this->registration->registerUserAddresses($_SESSION['userid'], $address);
+        $this->helper->redirect('profile');
     }
 }

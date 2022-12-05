@@ -40,9 +40,9 @@ class Helper
         
     }
 
-    public function validateUserInput($user) 
+    public function validateUserInput($input) 
     {
-        foreach ($user as $key=>$value) {
+        foreach ($input as $key=>$value) {
             if (!empty($value)) {
                 $user[$key] = $this->sanitize($value);
                 if ($key == 'phoneno') {
@@ -57,12 +57,12 @@ class Helper
                 return false;
             }
         }
-        if (isset($user['password_1'])) {
-            if(!($user['password_1'] = $this->validatePassword($user['password_1'],$user['password_2']))) {
+        if (isset($input['password_1'])) {
+            if(!($input['password_1'] = $this->validatePassword($input['password_1'],$input['password_2']))) {
                 return false;
             }
         }
-        return $user;
+        return $input;
     }
 
     public function validatePassword($password_1,$password_2)
@@ -103,10 +103,16 @@ class Helper
         return true;
     }
 
-    public function printError($errMsg)
+    public function printError($errCode)
     {
-        $error = new \StoreApp\Error\Error();
-        return $error->errorMessage($errMsg);
+        if(file_exists(ERROR_MSG_FILE)){
+            $jsonData = file_get_contents(ERROR_MSG_FILE); 
+            $errorArray = json_decode($jsonData,true);  
+            if(array_key_exists($errCode, $errorArray[0])) {
+                echo "<br>".$errorArray[0][$errCode]."<br>";
+            }
+        }
+
     }
     
 }

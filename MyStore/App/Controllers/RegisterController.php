@@ -5,51 +5,48 @@ namespace StoreApp\Controllers;
 use StoreApp\Data\Registration;
 use StoreApp\Helpers\DbHelper;
 use StoreApp\Helpers\Helper;
+use StoreApp\Views\RegistrationForm;
+
 ini_set('display_errors', 1);
 
 class RegisterController
 {
-    public function validateRegistration()
+    public $helper;
+    public $dbHelper;
+    public $registration;
+    public $registrationForm;
+
+    public function __construct()
+    {
+        $this->helper = new Helper();
+        $this->dbHelper = new DbHelper();
+        $this->registration = new Registration();
+        $this->registrationForm = new RegistrationForm();
+    }
+    public function validate()
     {
         if (empty($_POST)) {
-            return $this->showRegistrationForm();
+            return $this->registrationForm->display();
         }
-        if(!$user = (new Helper())->validateUserInput($_POST)) {
-            return $this->showRegistrationForm();
+        if (!$user = $this->helper->validateUserInput($_POST)) {
+            return $this->registrationForm->display();
         }
-        $this->register($user);
+        $this->add($user);
     }
 
-    public function register($user)
+    public function add($user)
     {
-        if ((new DbHelper())->checkUsername($user['username'])) {
-            (new Helper())->printError('username_exists');
-            return $this->showRegistrationForm();
+        if ($this->dbHelper->checkUsername($user['username'])) {
+            $this->helper->printError('username_exists');
+            return $this->registrationForm->display();
         }
-        $newRegistration = new Registration();
-        if ($user['id'] = $newRegistration->registerUser($user)) {
+        if ($user['id'] = $this->registration->registerUser($user)) {
             echo "Successfully registered..!";
-            (new Helper())->setUserSession($user);
-            (new Helper())->redirect('login');
+            ($this->helper)->setUserSession($user);
+            ($this->helper)->redirect('login');
         } else {
             echo "Error while Registering";
-            return $this->showRegistrationForm();
+            return $this->registrationForm->display();
         }
-    }
-
-    public function showRegistrationForm()
-    {
-        $page = new \StoreApp\Views\RegistrationForm();
-        return $page->display();
-    }
-
-    public function showHomePage()
-    {
-        $page = new \StoreApp\Views\Home();
-        return $page->display();
-    }
-    public function showWelcomePage()
-    {
-        echo "<p><a href='index'><< Back to Home >></a></p>";
     }
 }

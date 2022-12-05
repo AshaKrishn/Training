@@ -1,0 +1,32 @@
+[
+{
+    "firstname": "First name cannot be empty..!!",
+    "username" : "User name cannot be empty..!!",
+    "password_1": "Password cannot be empty..!!",
+    "password_2": "Confirm password cannot be empty..!!",
+    "phoneno": "Phone number cannot be empty..!!",
+    "email": "Email required..!!",
+    "address": "Address required..!!",
+    "city": "City required..!!",
+    "state": "State required..!!",
+    "country": "Country required..!!",
+    "pincode": "Pincode required..!!",
+    "password_mismatch": "Confirm password is not matching with the password entered..!!",
+    "phone_not_number": "Please enter only numeric value for phone number..!!",
+    "phone_length_mismatch": "The length of phone number must be 10 digits..!!",
+    "username_exists": "This username exists.Please choose a different one..!!",
+    "incorrect_password": "Password not correct.Please try again..!!",
+    "username_not_found": "This username doesnot exists.Please try again..!!",
+    "logout": "Error while logging out.Please try again..!!",
+    "product_name": "Please specify the product name ..!!",
+    "product_make": "Please specify the make..!!",
+    "product_price": "Product price cannot be empty..!!",
+    "product_price_format": "Please enter price in correct format..!!",
+    "no_address_found": "Please add address before ordering products..!!",
+    "cart_add_error": "Could not add to the cart.Please try again..!!",
+    "no_item_selected": "Please select an item..!!",
+    "user_not_found": "User not found..!!",
+    "unauthorised_access": "Unauthorised Login.Please relogin.!!",
+    "checkout": "Error while checking out..!"
+}
+]

@@ -2,82 +2,89 @@
 
 namespace StoreApp\Controllers;
 
+use StoreApp\Helpers\Helper;
 use StoreApp\Data\Order;
 use StoreApp\Data\Product;
 use StoreApp\Controllers\ProductController;
-use StoreApp\Helpers\DbHelper;
-use StoreApp\Helpers\Helper;
+use StoreApp\Views\OrderView;
 
 ini_set('display_errors', 1);
 
 class OrderController
 {
-    public function placeOrder()
+    public $helper;
+    public $product;
+    public $order;
+    public $productController;
+    public $orderView;
+
+    public function __construct()
     {
-        
+        $this->helper = new Helper();
+        $this->product = new Product();
+        $this->order = new Order();
+        $this->productController = new ProductController();
+        $this->orderView = new OrderView();
+    }
+    public function add()
+    {
         if (!$_POST) {
-            $product = new ProductController();
-            return $product->showCart();
+            return $this->productController->showCart();
         }
         foreach ($_POST['id'] as $cartId) {
-            $items[] = (new Product)->getUserCartItems($_SESSION['userid'],$cartId);
+            $items[] = $this->product->getUserCartItems($_SESSION['userid'],$cartId);
         }
         if (!$items) {
-            (new Helper())->printError('checkout');
-            (new Helper())->redirect('cart');
+            $this->helper->printError('checkout');
+            $this->helper->redirect('cart');
         }
-        $orderId = (new Order)->addOrder($_SESSION['userid'],$_POST['address']);
+        $orderId = $this->order->addOrder($_SESSION['userid'],$_POST['address']);
         if (!$orderId) {
-            (new Helper())->printError('checkout');
-            (new Helper())->redirect('cart');
+            $this->helper->printError('checkout');
+            $this->helper->redirect('cart');
         }
         foreach ($items as $item) {
-            if((new Order)->addOrderDetails($orderId,$item)) {
+            if($this->order->addOrderDetails($orderId,$item)) {
                $deleteCartIds[] = $item['cart_id'];
             }
         }
         if (!$deleteCartIds) {
-            (new Helper())->printError('checkout');
-            (new Helper())->redirect('cart');  
+            $this->helper->printError('checkout');
+            $this->helper->redirect('cart');  
         }
-        (new Product())->deleteCartItems($deleteCartIds);
-        (new Helper())->redirect('orders'); 
+        $this->product->deleteCartItems($deleteCartIds);
+        $this->helper->redirect('orders'); 
         
     }
 
-    public function viewOrders()
+    public function view()
     {
-        $order = new Order();
-        $orderLists = $order->getUserOrders($_SESSION['userid'],1); // Active orders
+        $orderLists = $this->order->getUserOrders($_SESSION['userid'],1); // Active orders
         foreach ($orderLists as $key=>$list) {
-            $orderLists[$key]['products'] = $order->getUserOrderDetails($list['order_id']);
+            $orderLists[$key]['products'] = $this->order->getUserOrderDetails($list['order_id']);
         }
-
-        $orderView = new \StoreApp\Views\OrderView();
-        return $orderView->display($orderLists);
+        return $this->orderView->display($orderLists);
     }
 
     public function manageOrders()
     {
         if (!$_POST) {
-            $this->viewOrders();
+            $this->view();
         }
         if ((isset($_POST['action'])) && ($_POST['action']== 'productLists')) {
-            $product = new Product();
-            if ($productLists = $product->getProducts()) {
-                return (new ProductController())->showProductForm('list', $productLists);
+            if ($productLists = $this->product->get()) {
+                return $this->productController->showProductForm('list', $productLists);
             }
 
         }
         if (isset($_POST['remove'])) {
-            $order = new Order();
-            if($order->deleteOrderItems($_POST['remove'])) {  
-                if(!$order->getOrderDetails($_POST['order_id'])) {
-                    $order->deleteOrder($_POST['order_id']);
+            if($this->order->deleteOrderItems($_POST['remove'])) {  
+                if(!$this->order->getOrderDetails($_POST['order_id'])) {
+                    $this->order->deleteOrder($_POST['order_id']);
                 }
             }
         }
-        (new Helper())->redirect('orders');
+        $this->helper->redirect('orders');
 
     }
   

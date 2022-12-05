@@ -37,7 +37,7 @@ class Product extends Database
         }
    }
 
-   public function getProducts($id = null)
+   public function get($id = null)
     {
         $str = '';
         $status = 1;
@@ -61,7 +61,7 @@ class Product extends Database
         return $stmt->fetchAll();
     }
 
-    public function updateProduct($product,$status) 
+    public function update($product,$status) 
     {
         $str = '';
         if ($status==0) {

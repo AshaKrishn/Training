@@ -7,7 +7,7 @@ use StoreApp\Controllers\Register;
 
 class ProductForm
 {
-    public function addProduct()
+    public function add()
     {
         ob_start();
         ?>
@@ -60,7 +60,7 @@ class ProductForm
     }
 
 
-    public function viewProducts($products)
+    public function view($products)
     {
         ob_start();
         ?>
@@ -123,7 +123,7 @@ class ProductForm
         return $str;
     }
 
-    public function editProduct($product)
+    public function edit($product)
     {
         ob_start();
         ?>

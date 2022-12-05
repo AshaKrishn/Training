@@ -48,7 +48,7 @@ class Order extends Database
 
     public function getUserOrders($userId,$orderStatus)
     {
-        $stmt = $this->conn->prepare("SELECT orders.id as order_id,orders.user_id,address_id,order_date,address,city,state,country,postal_code
+       $stmt = $this->conn->prepare("SELECT orders.id as order_id,orders.user_id,address_id,order_date,address,city,state,country,postal_code
                                      from orders INNER JOIN user_addresses ON (orders.address_id = user_addresses.id) 
                                      WHERE orders.user_id=:user_id AND status=:status");                        
         $stmt->bindParam(':user_id', $userId, \PDO::PARAM_INT);
@@ -65,7 +65,7 @@ class Order extends Database
     public function getUserOrderDetails($orderId) 
     {
         $stmt = $this->conn->prepare("SELECT order_details.id as order_details_id,order_id,product_id,
-                                    order_quantity,shipping_date,status,name,make,price,currency,created_on
+                                    order_quantity,shipping_date,order_details.status as status,name,make,price,currency,created_on
                                     FROM order_details INNER JOIN products ON (order_details.product_id = products.id)
                                     AND order_id=:order_id");
         
