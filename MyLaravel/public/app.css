@@ -1,0 +1,49 @@
+body {
+    font-family: serif;
+    background: rgb(195, 192, 192);
+    color: rgb(42, 38, 38);
+}
+nav {
+    background:rgb(108, 106, 106); 
+    color: white;
+}
+h1 a {
+    text-decoration: none;
+    color: white;  
+}
+h1 a:hover {
+    color: white;  
+}
+h2 {
+   margin-bottom: 1rem; 
+   text-align: center;
+}
+h4 {
+    margin-bottom: 2rem; 
+    text-align: center;
+ }
+.author {
+    text-decoration: none;
+    font-style: italic;
+    color: rgb(84, 98, 143);
+}
+
+a {
+    color: rgb(42, 38, 38);
+}
+a:hover {
+    color: rgb(119, 88, 88);
+}
+article {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgb(42, 38, 38);
+}
+p a {
+    color: rgb(21, 1, 1);
+}
+footer {
+    background:rgb(108, 106, 106); 
+    color: white;
+    font-size: 12px;
+}
